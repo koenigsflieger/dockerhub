@@ -1,0 +1,1 @@
+# JBoss WildFly 8 with Management-User, Oracle JDK 8, MariaDB Connector
