@@ -22,8 +22,11 @@ RUN ln -s /opt/jboss/wildfly-$WILDFLY_VERSION /opt/jboss/wildfly
 # Set the JBOSS_HOME env variable
 ENV JBOSS_HOME /opt/jboss/wildfly
 
-# Create the wildfly user and group
-RUN groupadd -r wildfly -g 433 && useradd -u 431 -r -g wildfly -d /opt/jboss/wildfly -s /bin/false -c "WildFly user" wildfly
+# Create a user and group used to launch processes
+# The user ID 1000 is the default for the first "regular" user on Fedora/RHEL,
+# so there is a high chance that this ID will be equal to the current user
+# making it easier to use volumes (no permission issues)
+RUN groupadd -r wildfly -g 1000 && useradd -u 1000 -r -g wildfly -d /opt/jboss/wildfly -s /bin/false -c "WildFly user" wildfly
 
 # Change the owner of the /opt/jboss/wildfly directory
 RUN chown -R wildfly:wildfly /opt/jboss/wildfly*
