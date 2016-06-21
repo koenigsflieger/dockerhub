@@ -1,10 +1,17 @@
 FROM ubuntu:14.04
 
-RUN sudo /bin/sh -c 'apt-get update && apt-get install software-properties-common python-software-properties -y'
+RUN apt-get update && apt-get install software-properties-common python-software-properties -y
 
-RUN sudo /bin/sh -c 'apt-get update && sudo add-apt-repository ppa:webupd8team/java'
+RUN apt-get update && sudo add-apt-repository ppa:webupd8team/java
 
-RUN sudo /bin/sh -c 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && apt-get install oracle-java8-set-default oracle-java8-installer -y'
+RUN \
+    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+    add-apt-repository -y ppa:webupd8team/java && \
+    apt-get update && \
+    apt-get install -y oracle-java8-installer && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/cache/oracle-jdk8-installer
+
 
 # Set the WILDFLY_VERSION env variable
 ENV WILDFLY_VERSION 8.2.0.Final
