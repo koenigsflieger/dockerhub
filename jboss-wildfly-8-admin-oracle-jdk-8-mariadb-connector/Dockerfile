@@ -1,8 +1,10 @@
 FROM koenigsflieger/jboss-wildfly-8-oracle-jdk-8
 
-# install mariadb-client
-RUN sudo apt-get update
-RUN sudo apt-get install mariadb-client -y
+# Install MariaDB-Client from repository.
+# RUN echo "deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main" > /etc/apt/sources.list.d/mariadb.list && \
+#     apt-get update && \
+#     DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mariadb-client
+RUN apt-get update && apt-get install -y --force-yes mariadb-client
 
 # add mariadb-connector
 # ADD org /opt/jboss/wildfly/modules/org/
