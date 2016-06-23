@@ -2,8 +2,6 @@ FROM ubuntu:14.04
 
 RUN apt-get update && apt-get install software-properties-common python-software-properties -y
 
-RUN apt-get update && sudo add-apt-repository ppa:webupd8team/java
-
 RUN \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
     add-apt-repository -y ppa:webupd8team/java && \
