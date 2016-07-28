@@ -3,10 +3,9 @@ FROM koenigsflieger/jboss-wildfly-8-oracle-jdk-8
 USER root
 
 # Install MariaDB-Client from repository.
-RUN \
-    add-apt-repository -y 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main' && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mariadb-client
+RUN add-apt-repository -y 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main' \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mariadb-client
 
 # switch to wildfly
 USER wildfly

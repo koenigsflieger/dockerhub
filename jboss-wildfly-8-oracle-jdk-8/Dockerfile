@@ -1,7 +1,9 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
+# Install python tools
 RUN apt-get update && apt-get install software-properties-common python-software-properties -y
 
+# Install Java 8
 RUN \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
     add-apt-repository -y ppa:webupd8team/java && \
@@ -15,9 +17,10 @@ RUN \
 ENV WILDFLY_VERSION 8.2.0.Final
 
 # Add the WildFly distribution to /opt/jboss
-RUN mkdir /opt/jboss
-RUN cd /opt/jboss && wget http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz
-RUN cd /opt/jboss && tar xvf wildfly-$WILDFLY_VERSION.tar.gz && rm wildfly-$WILDFLY_VERSION.tar.gz
+RUN mkdir /opt/jboss \
+    && cd /opt/jboss \
+    && wget http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
+    && tar xvf wildfly-$WILDFLY_VERSION.tar.gz && rm wildfly-$WILDFLY_VERSION.tar.gz
 
 # Make sure the distribution is available from a well-known place
 RUN ln -s /opt/jboss/wildfly-$WILDFLY_VERSION /opt/jboss/wildfly
@@ -29,7 +32,8 @@ ENV JBOSS_HOME /opt/jboss/wildfly
 # The user ID 1000 is the default for the first "regular" user on Fedora/RHEL,
 # so there is a high chance that this ID will be equal to the current user
 # making it easier to use volumes (no permission issues)
-RUN groupadd -r wildfly -g 1000 && useradd -u 1000 -r -g wildfly -d /opt/jboss/wildfly -s /bin/bash -c "WildFly user" wildfly
+RUN groupadd -r wildfly -g 1000 \
+    && useradd -u 1000 -r -g wildfly -d /opt/jboss/wildfly -s /bin/bash -c "WildFly user" wildfly
 
 # Change the owner of the /opt/jboss/wildfly directory
 RUN chown -R wildfly:wildfly /opt/jboss/wildfly*
