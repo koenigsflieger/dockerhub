@@ -1,26 +1,26 @@
 FROM ubuntu:16.04
 
 # Install python tools
-RUN apt-get update && apt-get install software-properties-common python-software-properties -y
+RUN apt-get update \
+    && apt-get install software-properties-common python-software-properties -y
 
 # Install Java 8
-RUN \
-    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-    add-apt-repository -y ppa:webupd8team/java && \
-    apt-get update && \
-    apt-get install -y oracle-java8-installer && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/oracle-jdk8-installer
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
+    && add-apt-repository -y ppa:webupd8team/java \
+    && apt-get update \
+    && apt-get install -y oracle-java8-installer \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/oracle-jdk8-installer
 
 
 # Set the WILDFLY_VERSION env variable
 ENV WILDFLY_VERSION 8.2.0.Final
 
 # Add the WildFly distribution to /opt/jboss
-RUN mkdir /opt/jboss \
-    && cd /opt/jboss \
-    && wget http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
-    && tar xvf wildfly-$WILDFLY_VERSION.tar.gz && rm wildfly-$WILDFLY_VERSION.tar.gz
+WORKDIR /opt/jboss
+RUN wget http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
+    && tar xvf wildfly-$WILDFLY_VERSION.tar.gz \
+    && rm wildfly-$WILDFLY_VERSION.tar.gz
 
 # Make sure the distribution is available from a well-known place
 RUN ln -s /opt/jboss/wildfly-$WILDFLY_VERSION /opt/jboss/wildfly
