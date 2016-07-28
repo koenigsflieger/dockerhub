@@ -11,14 +11,14 @@ RUN add-apt-repository -y 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu
 USER wildfly
 
 # add mariadb-connector
-# ADD org /opt/jboss/wildfly/modules/org/
-ADD com /opt/jboss/wildfly/modules/com/
+# COPY org /opt/jboss/wildfly/modules/org/
+COPY com /opt/jboss/wildfly/modules/com/
 
 #add mariaDB-Driver to configuration
 #<driver name="mariadb" module="com.mariadb">
 # <xa-datasource-class>org.mariadb.jdbc.MySQLDataSource</xa-datasource-class>
 #</driver>
-ADD conf /opt/jboss/wildfly/standalone/configuration/
+COPY conf /opt/jboss/wildfly/standalone/configuration/
 
 # add user admin with pwd admin
 RUN /opt/jboss/wildfly/bin/add-user.sh admin admin --silent
