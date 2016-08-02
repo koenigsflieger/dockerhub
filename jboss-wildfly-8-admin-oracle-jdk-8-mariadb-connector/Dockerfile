@@ -21,5 +21,5 @@ COPY com /opt/jboss/wildfly/modules/com/
 COPY conf /opt/jboss/wildfly/standalone/configuration/
 
 # add user admin with pwd admin
-RUN /opt/jboss/wildfly/bin/add-user.sh admin admin --silent
+RUN /opt/jboss/wildfly/bin/add-user.sh admin pwdadmin --silent
 
